@@ -6,9 +6,13 @@ type LoginInfo struct {
 }
 type DdnsInfo struct {
 	LoginInfo
-	Domain     string `json:"domain_id"`
+	Domain     string `json:"domain"`
 	RecordID   string `json:"record_id"`
 	SubDomain  string `json:"sub_domain"`
 	RecordLine string `json:"record_line"`
 	Value      string `json:"value"`
+}
+type User struct {
+	Name  string `json:"name"`
+	Email string `json:"emali"`
 }

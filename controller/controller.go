@@ -37,7 +37,7 @@ type controller struct {
 	uc usecase.Usecase
 }
 
-func MakeController(uc usecase.Usecase) *controller {
+func MakeController(uc usecase.Usecase) Controller {
 	return &controller{uc: uc}
 }
 func (crtl *controller) GetUserInfo(echo.Context) error {
@@ -48,9 +48,13 @@ func (crtl *controller) GetUserLog(echo.Context) error {
 
 	return echo.NewHTTPError(http.StatusOK)
 }
-func (crtl *controller) CreateDomian(echo.Context) error {
-
-	return echo.NewHTTPError(http.StatusOK)
+func (crtl *controller) CreateDomian(c echo.Context) error {
+	name := c.FormValue("name")
+	email := c.FormValue("email")
+	var user entity.User
+	user.Name = name
+	user.Email = email
+	return echo.NewHTTPError(http.StatusOK, user)
 }
 func (crtl *controller) ListDomain(echo.Context) error {
 
@@ -78,16 +82,23 @@ func (crtl *controller) CreateRecord(echo.Context) error {
 }
 func (crtl *controller) ListRecord(c echo.Context) error {
 
-	return echo.NewHTTPError(http.StatusOK)
+	res := crtl.uc.ListRecord()
+	return echo.NewHTTPError(http.StatusOK, res)
 }
 
 func (crtl *controller) SetUpRecord(c echo.Context) error {
-
 	var ddnsinfo entity.DdnsInfo
-	if err := c.Bind(&ddnsinfo); err != nil {
-		return echo.NewHTTPError(400, "Parameter Faild")
+	ddnsinfo.LoginToken = c.QueryParam("login_token")
+	ddnsinfo.Form = c.QueryParam("form")
+	ddnsinfo.Domain = c.QueryParam("domain")
+	ddnsinfo.SubDomain = c.QueryParam("sub_domain")
+	ddnsinfo.RecordLine = c.QueryParam("record_line")
+	ddnsinfo.Value = c.QueryParam("value")
+
+	_, err := crtl.uc.SetUpRecord(ddnsinfo)
+	if err != nil {
+		return echo.NewHTTPError(400, err)
 	}
-	crtl.uc.SetUpRecord(ddnsinfo)
 	return echo.NewHTTPError(http.StatusOK)
 }
 

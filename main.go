@@ -24,5 +24,8 @@ func main() {
 
 	g := e.Group("/dnspod")
 	g.POST("/updnns", crtl.SetUpRecord)
-	e.Logger.Fatal(e.Start(LISTEN))
+	g.GET("/test", crtl.CreateRecord)
+	g.POST("/post", crtl.ListRecord)
+
+	e.Logger.Fatal(e.Start(":3000"))
 }
