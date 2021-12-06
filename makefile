@@ -1,5 +1,7 @@
 .PHONY: dev
 
+dev: export COURSE_PLAN_POSTGRESQL_DSN=host=localhost port=5432 user=admin password=password dbname=postgres sslmode=disable
+
 dev: export HOST=https://dnsapi.cn
 dev: export NAME=XaioCui_DDNS
 dev: export ID=240684
