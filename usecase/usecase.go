@@ -30,6 +30,7 @@ type Usecase interface {
 	CreateRecord() error
 	ListRecord() entity.Dnspod
 	SetUpRecord(ddnsinfo entity.DdnsInfo) ([]byte, error)
+
 	RemoveRecord() error
 	DdnsRecord() error
 	GetRecordInfo() error
