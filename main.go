@@ -21,11 +21,11 @@ func main() {
 	client := &http.Client{}
 	uc := usecase.MakeUsecase(client, HOST)
 	crtl := controller.MakeController(uc)
-
+	e.GET("/", crtl.Test)
 	g := e.Group("/dnspod")
 	g.POST("/updnns", crtl.SetUpRecord)
 	g.GET("/test", crtl.CreateRecord)
 	g.POST("/post", crtl.ListRecord)
 
-	e.Logger.Fatal(e.Start(":3000"))
+	e.Logger.Fatal(e.Start(":8081"))
 }

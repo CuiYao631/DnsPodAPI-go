@@ -32,6 +32,8 @@ type Controller interface {
 	GetRecordInfo(echo.Context) error
 
 	//*******待添加********
+	//test
+	Test(echo.Context) error
 }
 type controller struct {
 	uc usecase.Usecase
@@ -114,4 +116,8 @@ func (crtl *controller) DdnsRecord(echo.Context) error {
 func (crtl *controller) GetRecordInfo(echo.Context) error {
 
 	return echo.NewHTTPError(http.StatusOK)
+}
+func (crtl *controller) Test(c echo.Context) error{
+	
+	 return c.HTML(http.StatusOK, "<strong>Hello, World!</strong>")
 }
